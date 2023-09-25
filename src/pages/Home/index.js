@@ -2,7 +2,6 @@ import Menu from '../../containers/Menu';
 import ServiceCard from '../../components/ServiceCard';
 import EventCard from '../../components/EventCard';
 import PeopleCard from '../../components/PeopleCard';
-
 import './style.scss';
 import EventList from '../../containers/Events';
 import Slider from '../../containers/Slider';
@@ -14,7 +13,9 @@ import { useData } from '../../contexts/DataContext';
 
 const Page = () => {
 	const { data } = useData();
-	const last = data?.events[data.events.length - 1];
+	const last = data?.events.sort((evtA, evtB) =>
+		new Date(evtA.date) > new Date(evtB.date) ? -1 : 1,
+	)[0];
 
 	return (
 		<>
@@ -67,7 +68,7 @@ const Page = () => {
 						Notre équipe
 					</h2>
 					<p>Une équipe d’experts dédiés à l’ogranisation de vos événements</p>
-					<div className="ListContainer">
+					<div className="ListContainer" data-testid="people-list">
 						<PeopleCard
 							imageSrc="/images/stephanie-liverani-Zz5LQe-VSMY-unsplash.png"
 							name="Samira"
@@ -119,19 +120,18 @@ const Page = () => {
 					</Modal>
 				</div>
 			</main>
-			<footer className="row">
-				<div className="col presta">
+			<footer className="row" data-testid="test-footer">
+				<div className="col presta" data-testid="last-event">
 					<h3>Notre derniére prestation</h3>
 					{last && last.cover && last.title ? (
 						<EventCard
-							imageSrc={last.cover}
-							title={last.title}
-							date={new Date(last.date)}
+							imageSrc={last?.cover}
+							title={last?.title}
+							date={new Date(last?.date)}
 							small
 							label="boom"
 						/>
 					) : null}
-					;
 				</div>
 				<div className="col contact">
 					<h3>Contactez-nous</h3>
