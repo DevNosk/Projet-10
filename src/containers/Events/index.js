@@ -4,7 +4,6 @@ import Select from '../../components/Select';
 import { useData } from '../../contexts/DataContext';
 import Modal from '../Modal';
 import ModalEvent from '../ModalEvent';
-
 import './style.css';
 
 const PER_PAGE = 9;
@@ -33,12 +32,12 @@ const EventList = () => {
 	const pageNumber = Math.floor((filteredEvents?.length || 0) / PER_PAGE) + 1;
 	const typeList = new Set(data?.events.map(event => event.type));
 	return (
-		<>
+		<div data-testid="An error occured">
 			{error && <div>An error occured</div>}
 			{data === null ? (
 				'loading'
 			) : (
-				<>
+				<div className="center" data-testid="event-list">
 					<h3 className="SelectTitle">Catégories</h3>
 					<Select
 						selection={Array.from(typeList)}
@@ -67,9 +66,9 @@ const EventList = () => {
 							</a>
 						))}
 					</div>
-				</>
+				</div>
 			)}
-		</>
+		</div>
 	);
 };
 
